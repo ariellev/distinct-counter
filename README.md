@@ -84,6 +84,15 @@ output/
 
 ### Overview
 ![Design](https://github.com/ariellev/distinct-counter/blob/master/distinct-counter.png?raw=true)
+
+| Component        | Description | Remarks
+| ---------------- | -------- | ------ |
+| Doorman          | Filter on json properties. Enforcing ingress rules & value validation      | Rules can be applied only to primitive fields
+| Worker           | Aggregates, downsamples the data, counter container      | For the sake of simplicity and granularity : 1 counter per json property per topic. This can be generalized to N counter per topic.
+
+* Se- and Deserialization are based on Protobuf. See: [model.proto](https://github.com/ariellev/distinct-counter/blob/master/src/main/proto/model.proto)
+* Configuration is based on [HOCON](https://github.com/lightbend/config/blob/master/HOCON.md). See: [application.conf](https://github.com/ariellev/distinct-counter/blob/master/src/main/resources/application.conf)
+
 ### Add more cardinality estimators
 The API currently supports 2 basic implementation: Exact & PCSA (Probabilistic Counting with Stochastic Averaging).
 To add other estimators such as LogLog, SuperLogLog, HyperLogLog follow the steps below:
@@ -91,3 +100,6 @@ To add other estimators such as LogLog, SuperLogLog, HyperLogLog follow the step
 2. Start a worker while setting the `worker.method` system property to the newly created coutner class, for example:
 `java -Dworker.method=MyNewCounter -cp build/libs/distinct-count-all.jar org.some.thing.component.Worker`
 # Resources
+* [Probabilistic Counting with Stochastic Averaging](https://research.neustar.biz/2013/04/02/sketch-of-the-day-probabilistic-counting-with-stochastic-averaging-pcsa/)
+* [An evaluation of streaming algorithms for distinct counting over a sliding window](https://www.frontiersin.org/articles/10.3389/fict.2015.00023/full)
+* [Counting Large Numbers of Events in Small Registers](https://www.inf.ed.ac.uk/teaching/courses/exc/reading/morris.pdf)
