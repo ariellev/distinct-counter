@@ -85,6 +85,9 @@ output/
 ### Overview
 ![Design](https://github.com/ariellev/distinct-counter/blob/master/distinct-counter.png?raw=true)
 ### Add more cardinality estimators
-
-
+The API currently supports 2 basic implementation: Exact & PCSA (Probabilistic Counting with Stochastic Averaging).
+To add other estimators such as LogLog, SuperLogLog, HyperLogLog follow the steps below:
+1. Implement [ICounter.java](https://github.com/ariellev/distinct-counter/blob/master/src/main/java/org/some/thing/counter/ICounter.java)
+2. Start a worker while setting the `worker.method` system property to the newly created coutner class, for example:
+`java -Dworker.method=MyNewCounter -cp build/libs/distinct-count-all.jar org.some.thing.component.Worker`
 # Resources
