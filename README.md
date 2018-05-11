@@ -32,7 +32,8 @@ Created topic "distinct-counter-frames-ingested".
 Created topic "distinct-counter-uid".
 ```
 5. Build the JAR Artefact: `gradle shadowJar`
-6. Upon changes to the messaging model, you may want to generate the protobuf sources: `protoc --proto_path=src/main/proto --java_out=src/main/java src/main/proto/model.proto`
+6. Upon changes to the messaging model, you may want to generate the protobuf sources:
+ `protoc --proto_path=src/main/proto --java_out=src/main/java src/main/proto/model.proto`
 
 ## Run
 ```
@@ -82,7 +83,7 @@ output/
 # Design
 
 ### Overview
-
+![Design](https://github.com/ariellev/distinct-counter/blob/master/distinct-counter.png?raw=true)
 ### Add more cardinality estimators
 
 
