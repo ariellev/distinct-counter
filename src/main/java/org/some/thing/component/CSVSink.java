@@ -97,10 +97,10 @@ public abstract class CSVSink extends AbstractConsumer<Void> {
 
         final String path = String.format(conf.getString("path"), "csv");
 
-        final Boolean exists = new File(path).exists();
+        final Boolean isMetric = conf.getBoolean("metric");
 
-        Constructor<?> constructor = clazz.getConstructor(String.class, String.class, Boolean.class, String.class);
-        return (CSVSink)constructor.newInstance(gid, cid, sticky, path);
+        Constructor<?> constructor = clazz.getConstructor(String.class, String.class, Boolean.class, Boolean.class, String.class);
+        return (CSVSink)constructor.newInstance(gid, cid, sticky, isMetric, path);
     }
 
 }

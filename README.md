@@ -3,7 +3,7 @@
 Stream data from Kafka and count unique things within this data.
 
 ## Prerequisites
-1. Docker, Java, [Protobuf compiler](https://github.com/google/protobuf) are installed.
+1. Docker, Java, Gradle, [Protobuf compiler](https://github.com/google/protobuf) are installed.
 2. A private docker registry is running on localhost:5000. see [here](https://docs.docker.com/registry/deploying/)
 3. That private registry is marked 'insecure': [Mac Os ](https://stackoverflow.com/questions/32808215/where-to-set-the-insecure-registry-flag-on-mac-os) | [Linux](https://docs.docker.com/registry/insecure/)
 
@@ -66,19 +66,50 @@ output/
 ```
 
 * `sink-card.csv` contains cardinality counts
+```
+> head output/data/sink-card.csv | csvlook -I
+
+| date                | property | method | window | cardinality | error   |
+| ------------------- | -------- | ------ | ------ | ----------- | ------- |
+| 2016-07-11 15:39:44 | uid      | PCSA   | 60     | 5635        | 0.04875 |
+| 2016-07-11 15:40:44 | uid      | PCSA   | 60     | 5499        | 0.04875 |
+| 2016-07-11 15:41:44 | uid      | PCSA   | 60     | 5727        | 0.04875 |
+| 2016-07-11 15:42:44 | uid      | PCSA   | 60     | 5885        | 0.04875 |
+| 2016-07-11 15:43:44 | uid      | PCSA   | 60     | 5382        | 0.04875 |
+| 2016-07-11 15:44:44 | uid      | PCSA   | 60     | 5681        | 0.04875 |
+| 2016-07-11 15:45:44 | uid      | PCSA   | 60     | 5696        | 0.04875 |
+| 2016-07-11 15:46:44 | uid      | PCSA   | 60     | 5650        | 0.04875 |
+| 2016-07-11 15:47:44 | uid      | PCSA   | 60     | 5605        | 0.04875 |
+```
+
 * `sink-metric.csv` contains metrics
 
-```
-> csvlook -I output/data/sink-card.csv
 
-| date             | property | method | window | cardinality | error   |
-| ---------------- | -------- | ------ | ------ | ----------- | ------- |
-| 2016-07-11 15:39 | uid      | Exact  | 1      | 43598       | 0.0     |
-| 2016-07-11 15:39 | uid      | PCSA   | 1      | 5635        | 0.04875 |
-| 2016-07-11 15:40 | uid      | PCSA   | 1      | 5499        | 0.04875 |
-| 2016-07-11 15:40 | uid      | Exact  | 1      | 41541       | 0.0     |
-| 2016-07-11 15:41 | uid      | PCSA   | 1      | 5727        | 0.04875 |
 ```
+> head output/data/sink-metric.csv | csvlook -I
+
+| date                | property         | method | window | cardinality | error |
+| ------------------- | ---------------- | ------ | ------ | ----------- | ----- |
+| 2018-05-11 22:20:09 | frames-processed | Head   | 1      | 6           | 0.0   |
+| 2018-05-11 22:20:09 | props-ingested   | Head   | 1      | 6           | 0.0   |
+| 2018-05-11 22:20:10 | frames-processed | Head   | 1      | 39          | 0.0   |
+| 2018-05-11 22:20:10 | props-ingested   | Head   | 1      | 39          | 0.0   |
+| 2018-05-11 22:20:11 | frames-processed | Head   | 1      | 48          | 0.0   |
+| 2018-05-11 22:20:11 | props-ingested   | Head   | 1      | 48          | 0.0   |
+| 2018-05-11 22:20:12 | frames-processed | Head   | 1      | 65          | 0.0   |
+| 2018-05-11 22:20:12 | props-ingested   | Head   | 1      | 65          | 0.0   |
+| 2018-05-11 22:20:13 | frames-processed | Head   | 1      | 74          | 0.0   |
+```
+
+
+# Stop
+```
+> distinct-count.sh stop
+-------------------------------------------------------
+distinct-counter           stop
+-------------------------------------------------------
+```
+Tip: If you keep on getting `Killed: 9` each time when stopping the tool, run `set +m` to suppress the message.
 
 # Design
 
@@ -89,8 +120,9 @@ output/
 | ---------------- | -------- | ------ |
 | Doorman          | Filter on json properties. Enforcing ingress rules & value validation      | Rules can be applied only to primitive fields
 | Worker           | Aggregates, downsamples the data, counter container      | For the sake of simplicity and granularity : 1 counter per json property per topic. This can be generalized to N counter per topic.
+| Sink             | Outputs records to csv files      | -
 
-* Se- and Deserialization are based on Protobuf. See: [model.proto](https://github.com/ariellev/distinct-counter/blob/master/src/main/proto/model.proto)
+* De- and Serialization are implemented with Protobuf. See: [model.proto](https://github.com/ariellev/distinct-counter/blob/master/src/main/proto/model.proto)
 * Configuration is based on [HOCON](https://github.com/lightbend/config/blob/master/HOCON.md). See: [application.conf](https://github.com/ariellev/distinct-counter/blob/master/src/main/resources/application.conf)
 
 ### Add more cardinality estimators

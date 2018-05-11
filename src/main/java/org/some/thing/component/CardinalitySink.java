@@ -14,8 +14,8 @@ public class CardinalitySink extends CSVSink {
 
     private final String fmt = "%s;%s;%s;%s;%s;%s\n";
 
-    public CardinalitySink(String groupId, String clientId, Boolean sticky, String path) {
-        super(groupId, clientId, Constants.Topics.CARDINALITIES, sticky, path);
+    public CardinalitySink(String groupId, String clientId, Boolean sticky, Boolean isMetric, String path) {
+        super(groupId, clientId, isMetric? Constants.Topics.METRICS : Constants.Topics.CARDINALITIES, sticky, path);
     }
 
     @Override

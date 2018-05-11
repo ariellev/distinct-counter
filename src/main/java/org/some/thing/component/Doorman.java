@@ -64,9 +64,9 @@ public class Doorman extends AbstractConsumer<Void> {
             final long now = new Date().getTime();
 
             this.sendProperty(Constants.Metrics.FRAMES_PROCESSED, records.count(), now);
-            this.sendProperty(Constants.Metrics.FRAMES_INGESTED, total, now);
+            this.sendProperty(Constants.Metrics.PROPS_INGESTED, total, now);
 
-            log.trace("Ingress, total={}", total);
+//            log.debug("Ingress, frames={}, props={}", records.count(), total);
             return null;
         });
 

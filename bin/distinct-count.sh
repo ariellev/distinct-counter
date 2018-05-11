@@ -63,10 +63,10 @@ if [ "${cmd}" = "stop" ]; then
     ps aux | grep distinct | tr -s " " | cut -d" " -f2 | xargs -I{} kill -9 {} >/dev/null 2>&1
 else
 
-    echo "Creating Data Folder, path=$(bold $data_folder)"
+    echo "Creating $(bold Data) Folder, path=$data_folder"
     mkdir -p $data_folder
 
-    echo "Creating Log Folder, path=$(bold $log_folder)"
+    echo "Creating $(bold Log) Folder, path=$log_folder"
     rm -rf $log_folder
     mkdir -p $log_folder
 
@@ -80,18 +80,18 @@ else
     done
 
     # creating metric workers
-    METRICS=frames-processed,frames-ingested
+    METRICS=frames-processed,props-ingested
     METRICS=(${METRICS//,/ })
     component=Worker
 
     for metric in ${METRICS[@]}; do
         echo "Starting Metric Worker $(bold $metric)."
-        java -Dworker.window=1s -Dworker.method=Exact -Dworker.property=${metric} -Dworker.isMetric=true -cp ${jar_file} org.some.thing.component.${component} >> $log_folder/$component.log 2>&1 &
+        java -Dworker.window=1s -Dworker.method=Head -Dworker.property=${metric} -Dworker.metric=true -cp ${jar_file} org.some.thing.component.${component} >> $log_folder/$component.log 2>&1 &
         sleep 1
     done
 
     echo "Starting $(bold MetricSink)."
-    java -Dsink.name=metric -cp ${jar_file} org.some.thing.component.CardinalitySink >> $log_folder/MetricSink.log 2>&1 &
+    java -Dsink.name=metric -Dsink.metric=true -cp ${jar_file} org.some.thing.component.CardinalitySink >> $log_folder/MetricSink.log 2>&1 &
 
     echo "Sleeping 10s.."
 

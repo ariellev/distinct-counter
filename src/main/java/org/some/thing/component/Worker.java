@@ -71,7 +71,7 @@ public class Worker extends AbstractConsumer<ICounter> {
                         from = ts;
                     }
 
-                    log.debug("prop={}, from={}, to={}, ts={}", prop, Constants.sdf.format(new Date(from)), Constants.sdf.format(new Date(from + this.windowMs)), Constants.sdf.format(new Date(ts)));
+//                    log.debug("prop={}, from={}, to={}, ts={}", prop, Constants.sdf.format(new Date(from)), Constants.sdf.format(new Date(from + this.windowMs)), Constants.sdf.format(new Date(ts)));
 
                     if (ts >= from && ts < from + this.windowMs) {
                         counter.add(ingess.getValue());

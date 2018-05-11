@@ -1,19 +1,16 @@
 package org.some.thing.counter;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * Exact Distinct Counter
+ * Count Head. 1 element = 1 count
  * @param <T>
  */
-public class Exact<T> implements ICounter<T> {
+public class Head<T> implements ICounter<T> {
 
-    private Set<T> counts = new HashSet<>();
+    private int count = 0;
 
     @Override
     public void add(T element) {
-        counts.add(element);
+        count++;
     }
 
     @Override
@@ -23,7 +20,7 @@ public class Exact<T> implements ICounter<T> {
 
     @Override
     public int cardinality() {
-        return counts.size();
+        return count;
     }
 
     @Override
@@ -38,12 +35,12 @@ public class Exact<T> implements ICounter<T> {
 
     @Override
     public void clear() {
-        counts.clear();
+        count = 0;
     }
 
     @Override
     public boolean isEmpty() {
-        return counts.isEmpty();
+        return count == 0;
     }
 
 }

@@ -14,7 +14,7 @@ echo -------------------------------------------------------
 echo "Creating Kafka Topics"
 echo -------------------------------------------------------
 
-TOPICS=ingest,test,cardinalities,frames-processed,frames-ingested,uid
+TOPICS=ingest,test,cardinalities,frames-processed,props-ingested,uid
 TOPICS=(${TOPICS//,/ })
 
 for t in ${TOPICS[@]}; do

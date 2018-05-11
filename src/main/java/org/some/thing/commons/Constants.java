@@ -9,7 +9,7 @@ public class Constants {
 
     public static class Metrics {
         public static final String FRAMES_PROCESSED = "frames-processed";
-        public static final String FRAMES_INGESTED = "frames-ingested";
+        public static final String PROPS_INGESTED = "props-ingested";
     }
 
     public static class Topics {

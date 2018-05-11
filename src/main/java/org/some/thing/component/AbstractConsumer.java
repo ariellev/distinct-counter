@@ -20,7 +20,7 @@ public abstract class AbstractConsumer<T> implements Callable<T> {
 
     private static Logger log = LogManager.getLogger(AbstractConsumer.class);
 
-    private ExecutorService executor = Executors.newFixedThreadPool(1);
+    private ExecutorService executor = Executors.newFixedThreadPool(2);
 
     private Boolean sticky = false;
     private final String groupId;
