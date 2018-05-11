@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_package = "org.some.thing.commons";
+
+message Ingess {
+    uint64 time = 1;
+    string value = 2;
+    string property = 3;
+}
+
+message Cardinality {
+    uint64 time = 1;
+    string property = 2;
+    string method = 3;
+    uint64 window = 4;
+    uint64 cardinality = 5;
+    double error = 6;
+}

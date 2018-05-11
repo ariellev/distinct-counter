@@ -1,0 +1,25 @@
+version: '3'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    restart: always
+    ports:
+        - 2181:2181
+    env_file:
+        - $env_file
+    container_name: zookeeper
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+        - 9092:9092
+    env_file:
+        - $env_file
+    container_name: kafka
+    environment:
+        KAFKA_ADVERTISED_HOST_NAME: $docker_ip
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - zookeeper
