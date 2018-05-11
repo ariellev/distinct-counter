@@ -109,7 +109,7 @@ output/
 distinct-counter           stop
 -------------------------------------------------------
 ```
-Tip: If you keep on getting `Killed: 9` each time when stopping the tool, run `set +m` to suppress the message.
+Tip: If you keep on getting `Killed: 9` each time stopping the tool, run `set +m` to suppress the message.
 
 # Design
 
