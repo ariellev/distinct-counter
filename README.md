@@ -55,7 +55,7 @@ Starting Metric Worker frames-processed.
 Starting Metric Worker props-ingested.
 Starting MetricSink.
 Sleeping 10s..
-Sending Data..
+Sending Data input=data/stream.jsonl.gz
 ```
 The tool creates an `output` folder containing logs and csv files.
 ```
