@@ -70,7 +70,7 @@ else
     rm -rf $log_folder
     mkdir -p $log_folder
 
-    COMPONENTS=Doorman,Worker,CardinalitySink
+    COMPONENTS=Doorman,Worker,CSVSink,JsonSink
     COMPONENTS=(${COMPONENTS//,/ })
 
     for component in ${COMPONENTS[@]}; do
@@ -91,7 +91,7 @@ else
     done
 
     echo "Starting $(bold MetricSink)."
-    java -Dsink.name=metric -Dsink.metric=true -cp ${jar_file} org.some.thing.component.CardinalitySink >> $log_folder/MetricSink.log 2>&1 &
+    java -Dsink.name=metric -Dsink.metric=true -cp ${jar_file} org.some.thing.component.CSVSink >> $log_folder/MetricSink.log 2>&1 &
 
     echo "Sleeping 10s.."
 

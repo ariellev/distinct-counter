@@ -38,34 +38,38 @@ Created topic "distinct-counter-uid".
 ## Run
 ```
 > distinct-count.sh start
-  -------------------------------------------------------
-  distinct-counter           start
-  -------------------------------------------------------
-  Creating Data Folder, path=output/data
-  Creating Log Folder, path=output/logs
-  Starting Component Doorman.
-  Starting Component Worker.
-  Starting Component CardinalitySink.
-  Starting Metric Worker frames-processed.
-  Starting Metric Worker frames-ingested.
-  Starting MetricSink.
-  Sleeping 10s..
-  Sending Data..
+
+-------------------------------------------------------
+distinct-counter           start
+-------------------------------------------------------
+Creating Data Folder, path=output/data
+Creating Log Folder, path=output/logs
+Starting Component Doorman.
+Starting Component Worker.
+Starting Component CSVSink.
+Starting Component JsonSink.
+Starting Metric Worker frames-processed.
+Starting Metric Worker props-ingested.
+Starting MetricSink.
+Sleeping 10s..
+Sending Data..
 ```
 The tool creates an `output` folder containing logs and csv files.
 ```
 output/
 ├── data
 │   ├── sink-card.csv
+│   ├── sink-card.json
 │   └── sink-metric.csv
 └── logs
-    ├── CardinalitySink.log
+    ├── CSVSink.log
     ├── Doorman.log
+    ├── JsonSink.log
     ├── MetricSink.log
     └── Worker.log
 ```
 
-* `sink-card.csv` contains cardinality counts
+* `sink-card.csv` contains cardinality counts in `csv` format.
 ```
 > head output/data/sink-card.csv | csvlook -I
 
@@ -81,8 +85,8 @@ output/
 | 2016-07-11 15:46:44 | uid      | PCSA   | 60     | 5650        | 0.04875 |
 | 2016-07-11 15:47:44 | uid      | PCSA   | 60     | 5605        | 0.04875 |
 ```
-
-* `sink-metric.csv` contains metrics
+* `sink-card.json` contains cardinality counts in `json line` format.
+* `sink-metric.csv` contains non-functional metrics.
 
 
 ```
@@ -118,7 +122,7 @@ Tip: If you keep on getting `Killed: 9` each time stopping the tool, run `set +m
 
 | Component        | Description | Remarks
 | ---------------- | -------- | ------ |
-| Doorman          | Filter on json properties. Enforcing ingress rules & value validation      | Rules can be applied only to primitive fields
+| Doorman          | Filter on json properties. Enforcing ingress rules & value validation. Example: `uid = "[a-z0-9]{19}"` enforces the `uid` property to contain exactly 19 alphanumeric characters.    | Rules can be applied only to primitive fields
 | Worker           | Aggregates, downsamples the data, counter container      | For the sake of simplicity and granularity : 1 counter per json property per topic. This can be generalized to N counter per topic.
 | Sink             | Outputs records to csv files      | -
 

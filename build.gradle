@@ -32,7 +32,8 @@ dependencies {
 
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 
-    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
+    implementation group: 'com.googlecode.protobuf-java-format', name: 'protobuf-java-format', version: '1.4'
+    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.5.1'
 
     // Use the latest Groovy version for Spock testing
     testImplementation 'org.codehaus.groovy:groovy-all:2.4.13'

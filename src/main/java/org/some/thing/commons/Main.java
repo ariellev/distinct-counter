@@ -1,7 +1,8 @@
 package org.some.thing.commons;
 
-import org.some.thing.component.CardinalitySink;
+import org.some.thing.component.CSVSink;
 import org.some.thing.component.Doorman;
+import org.some.thing.component.JsonSink;
 import org.some.thing.component.Source;
 import org.some.thing.component.Worker;
 
@@ -15,7 +16,8 @@ public class Main {
         final List<String> list = Arrays.asList(
                 Doorman.class.getName(),
                 Worker.class.getName(),
-                CardinalitySink.class.getName(),
+                CSVSink.class.getName(),
+                JsonSink.class.getName(),
                 Source.class.getName());
 
         final String joined = String.join(" | ", list);
