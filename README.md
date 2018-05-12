@@ -32,11 +32,11 @@ Created topic "distinct-counter-frames-ingested".
 Created topic "distinct-counter-uid".
 ```
 5. Build the JAR Artefact: `gradle shadowJar`
-6. Upon changes to the messaging model, you may want to generate the protobuf sources:
+6. Upon changes to the messaging model, you may want to generate the protobuf sources.\
  `protoc --proto_path=src/main/proto --java_out=src/main/java src/main/proto/model.proto`
 
 ## Run
-Create a `data` Folder and copy the input file to `data/stream.jsonl.gz`.
+Create a `data` Folder and copy the input file to `data/stream.jsonl.gz`.\
 Alternatively specify a path using the command line option `--in `
 
 ```
