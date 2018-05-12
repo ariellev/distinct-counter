@@ -36,7 +36,8 @@ Created topic "distinct-counter-uid".
  `protoc --proto_path=src/main/proto --java_out=src/main/java src/main/proto/model.proto`
 
 ## Run
-Create a `data` Folder and copy the input file to `data/stream.jsonl.gz` Alternatively specify a path using the command line option `--in `
+Create a `data` Folder and copy the input file to `data/stream.jsonl.gz`.
+Alternatively specify a path using the command line option `--in `
 
 ```
 > distinct-count.sh start
