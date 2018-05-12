@@ -2,13 +2,17 @@
 <Configuration>
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
-			<PatternLayout pattern="[%-5p] %d %c: %m [%t] %3x%n" /><!-- %d %-5p %C{2} (%F:%L) - %m%n -->
+			<PatternLayout pattern="[%-5p] %d %c: %m [%t] %3x%n" />
+		</Console>
+		<Console name="error" target="SYSTEM_ERR">
+			<PatternLayout pattern="[%-5p] %d %c: %m [%t] %3x%n" />
 		</Console>
 	</Appenders>
 
 	<Loggers>
 		<Root level="debug">
-			<AppenderRef ref="console" />
+			<AppenderRef ref="console" level="debug"/>
+			<AppenderRef ref="error" level="error"/>
 		</Root>
 	</Loggers>
 </Configuration>

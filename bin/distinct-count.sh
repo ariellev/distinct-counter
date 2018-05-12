@@ -4,7 +4,7 @@ set -e
 
 cmd=$1
 
-USAGE="Usage: $(basename $0) [COMMAND] [options]"
+USAGE="Usage: $(basename $0) [start|stop] [options]"
 
 if [ "$#" == "0" ]; then
 	echo "$USAGE"
@@ -19,6 +19,10 @@ do
 key="$1"
 
 case $key in
+    -i|--in)
+    input="$2"
+    shift # past argument
+    ;;
     -j|--jar)
     jar_file="$2"
     shift # past argument
@@ -39,6 +43,10 @@ shift # past argument or value
 done
 
 # default values
+if [ -z ${input} ]; then
+    input=data/stream.jsonl.gz
+fi
+
 if [ -z ${jar_file} ]; then
     jar_file=build/libs/distinct-count-all.jar
 fi
@@ -97,8 +105,8 @@ else
 
     sleep 10
 
-    echo $(bold "Sending Data..")
-    java -cp ${jar_file} org.some.thing.component.Source >> $log_folder/Source.log 2>&1
+    echo $(bold "Sending Data") input=${input}
+    java -Dsource.path=${input} -cp ${jar_file} org.some.thing.component.Source 1>> $log_folder/Source.log
     echo "done."
 fi
 

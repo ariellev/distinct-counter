@@ -2,15 +2,16 @@ package org.some.thing.component;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.some.thing.commons.Constants;
-import org.some.thing.commons.Context;
-import org.some.thing.commons.Utils;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.some.thing.commons.Constants;
+import org.some.thing.commons.Context;
+import org.some.thing.commons.Utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,16 +44,20 @@ public class Source extends Context {
         final Config conf = ConfigFactory.load().getConfig("source");
         final String path = conf.getString("path");
 
-//        source.streamFromPath(Constants.Topics.INGEST, null, "data/stream.jsonl.head.10k", line -> {
-//            return line.getBytes();
-//        });
+        if (!new File(path).exists()) {
+            log.error("File not found, path={}", path);
+            return;
+        }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(path))))) {
             source.stream(Constants.Topics.INGEST, null, reader, line -> {
                 return line.getBytes();
             });
-        } finally {
+        } catch(Exception e) {
 
+            log.error(e.getMessage());
+
+        } finally {
 
         }
 
